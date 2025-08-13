@@ -13,6 +13,27 @@ about pages for each team member
   [hw1/report.html](https://indominus.space/hw1/report.html)
 Details of Github auto deploy setup
   Essentially what I did was make a new github repo named indominus.space. I initialized my repo and uploaded the files from my remote ssh connection to the repo. Then I created a hook to detect push request so it may update to the IP address of the droplet and reflect the changes. I cloned my repo to my local machine, so now I'm able to edit from my local machine, and whenever I push something to the repo I'm able to then ssh to the server, git pull origin master, and the changes shortly appear afterwards on the site. 
+
+  http://204.48.17.237:9000/hooks/deploy-indominus is my payload URL. I made a shell program to execute the following: 
+    #!/bin/bash
+    cd /var/www/indominus.space || exit
+    git pull origin main
+  Made it executable: chmod +x /var/www/indominus.space/deploy.sh
+  Configured a webhooks file: hooks.json
+
+  [
+    {
+      "id": "deploy-indominus",
+      "execute-command": "/var/www/indominus.space/deploy.sh",
+      "command-working-directory": "/var/www/indominus.space",
+      "response-message": "Deploy script executed successfully"
+    }
+  ]
+
+  Then started an event listener: webhook -hooks /home/osorio/hooks.json -port 9000
+
+  So now I'm able to remotely work on the site. If I make any pushes, I ssh and git pull origin master.
+    
 Username/password info for logging into the site
   grader: password --- for https://reporting.indominus.space
 Summary of changes to HTML file in DevTools after compression
