@@ -1,0 +1,1 @@
+{"message":"Hello World from PHP!","date":"Today's date is 2025-08-15","ipAddress":"68.8.189.201"}
