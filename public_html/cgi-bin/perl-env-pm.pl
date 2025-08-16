@@ -1,52 +1,21 @@
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
-<head>
-<title>Environment Variables</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-</head>
-<body>
-<h1 align='center'>Environment Variables</h1><hr /><li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
-<li>=</li>
+#!/usr/bin/perl
 
-</body>
-</html>
+# The below line includes the CGI.pm Perl library
+use CGI qw/:standard/;     
+
+# CGI.pm Method
+print "Cache-Control: no-cache\n";
+print header;
+
+# CGI.pm Method
+print start_html("Environment Variables");
+
+print "<h1 align='center'>Environment Variables</h1><hr />";
+
+# Loop through all of the environment variables, then print each variable and its value
+foreach my $key (sort(keys(%ENV))) {
+   print  "$key = $ENV{$key}<br />\n";
+}
+
+# CGI.pm method
+print end_html;
