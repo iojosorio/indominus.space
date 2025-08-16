@@ -1,3 +1,23 @@
-<html><head><title>Hello C CGI World</title></head><body><h1 align=center>Hello HTML World!</h1><hr/><p>Hello World</p><p>This page was generated with the C programming langauge</p><p>This program was run at: Fri Aug 15 20:44:04 2025
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-</p><p>Your current IP Address is: 68.8.189.201</p></body></html>
+int main(void)
+ {
+ time_t t;
+ time(&t);
+  // Print HTML header
+  printf("Cache-Control: no-cache\n");
+  printf("Content-type: text/html\n\n");
+  printf("<html><head><title>Hello CGI World</title></head>\
+	<body><h1 align=center>Hello HTML World</h1>\
+  	<hr/>\n");
+
+ printf("Hello World<br/>\n");
+ printf("This program was generated at: %s\n<br/>", ctime(&t));
+ printf("Your current IP address is: %s<br/>", getenv("REMOTE_ADDR"));
+ 
+ // Print HTML footer
+ printf("</body></html>");
+ return 1;
+ }
