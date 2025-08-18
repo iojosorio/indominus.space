@@ -1,1 +1,13 @@
-{"message":"Hello World from PHP!","date":"Today's date is 2025-08-15","ipAddress":"68.8.189.201"}
+#!/usr/bin/php
+<?php
+header("Cache-Control: no-cache");
+header("Content-type: application/json");
+
+$response = [
+    "message" => "Hello World",
+    "date" => date("r"),
+    "currentIP" => $_SERVER["REMOTE_ADDR"] ?? "Unknown"
+];
+
+echo json_encode($response, JSON_PRETTY_PRINT);
+?>
