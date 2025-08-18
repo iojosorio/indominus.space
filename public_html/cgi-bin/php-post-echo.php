@@ -1,12 +1,14 @@
+#!/usr/bin/php
+<?php
+header("Cache-Control: no-cache");
+header("Content-type: text/html");
 
-<html>
-<head>
-<title>POST Request Echo</title>
-</head>
-<body>
-<h1 align=center>POST Request Echo</h1>
-<hr/>
-<ul>
-</ul>
-</body>
-</html>
+echo "<html><head><title>POST Message Body</title></head>";
+echo "<body><h1 align=center>POST Message Body</h1><hr/>";
+
+// Read POST body
+$body = file_get_contents("php://input");
+echo "Message Body: " . htmlspecialchars($body) . "<br/>";
+
+echo "</body></html>";
+?>
