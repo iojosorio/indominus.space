@@ -2,7 +2,7 @@
 use CGI;
 use CGI::Session;
 
-# print "Cache-Control: no-cache\n";
+print "Cache-Control: no-cache\n";
 
 # Access Perl Session
 use CGI::Session;
