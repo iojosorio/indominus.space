@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import os
-import cgi
 import http.cookies
 import pickle
 
@@ -13,7 +12,7 @@ def load_session(session_id):
             return pickle.load(f)
     return {}
 
-# Get cookies
+# Read cookies
 cookie = http.cookies.SimpleCookie(os.environ.get("HTTP_COOKIE"))
 session_id = cookie.get("CGISESSID")
 
@@ -26,10 +25,10 @@ else:
 # Access stored data
 name = session.get("username")
 
-# Send headers
+# Headers
 print("Content-Type: text/html\n")
 
-# HTML output
+# HTML Output
 print("<html>")
 print("<head><title>Python Sessions</title></head>")
 print("<body>")
