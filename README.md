@@ -1,3 +1,12 @@
+Homework 2:
+Link: https://indominus.space/
+Team Members: Jonathan Osorio
+IP: 204.48.17.237
+grader log information: 
+  username: grader
+  password: smmdkmtgrd3r
+
+Homework 1:
 Names of all members in your team:
   Jonathan Osorio
 The password for user "grader" on your Apache server:
