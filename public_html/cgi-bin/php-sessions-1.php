@@ -25,10 +25,10 @@ if ($name) {
     <?php endif; ?>
 
     <br/><br/>
-    <a href="php-sessions-2.php">Session Page 2</a><br/>
-    <a href="php-cgiform.html">PHP Form</a><br/>
+    <a href="/cgi-bin/php-sessions-2.php">Session Page 2</a><br/>
+    <a href="/php-cgiform.html">PHP Form</a><br/>
 
-    <form style="margin-top:30px" action="php-destroy-session.php" method="get">
+    <form style="margin-top:30px" action="/cgi-bin/php-destroy-session.php" method="get">
         <button type="submit">Destroy Session</button>
     </form>
 </body>
