@@ -6,36 +6,33 @@ import pickle
 SESSION_DIR = "/tmp"
 
 def load_session(session_id):
-    session_file = f"{SESSION_DIR}/session_{session_id}.pkl"
+    session_file = os.path.join(SESSION_DIR, f"session_{session_id}.pkl")
     if os.path.exists(session_file):
         with open(session_file, "rb") as f:
             return pickle.load(f)
     return {}
 
 # Read cookies
-cookie_header = os.environ.get("HTTP_COOKIE", "")
-cookie = http.cookies.SimpleCookie(cookie_header)
-if "CGISESSID" in cookie:
-    session_id = cookie["CGISESSID"].value
+cookie = http.cookies.SimpleCookie(os.environ.get("HTTP_COOKIE"))
+session_id = cookie.get("CGISESSID")
+
+if session_id:
+    session_id = session_id.value
     session = load_session(session_id)
 else:
     session = {}
-    session_id = None  # no session yet
 
 # Access stored data
 name = session.get("username")
 
-# Send headers
-print("Content-Type: text/html")
-if session_id:
-    # Keep the session cookie alive
-    print(f"Set-Cookie: CGISESSID={session_id}; Path=/cgi-bin/")
-print()
+# Headers
+print("Content-Type: text/html\n")
 
 # HTML Output
 print("<html>")
 print("<head><title>Python Sessions</title></head>")
 print("<body>")
+
 print("<h1>Python Sessions Page 2</h1>")
 
 if name:
@@ -50,4 +47,5 @@ print('<a href="/python-cgiform.html">Python CGI Form</a><br/>')
 print('<form style="margin-top:30px" action="/cgi-bin/python-destroy-session.py" method="get">')
 print('<button type="submit">Destroy Session</button>')
 print('</form>')
+
 print("</body></html>")
