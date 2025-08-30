@@ -1,9 +1,11 @@
 window.addEventListener('load', function() {
 
+    //Session Identifier
     function generateSessionId() {
         return 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
     }
 
+    //Helper methods
     function checkImagesEnabled(callback) {
         let img = new Image();
         img.onload = function() { callback(true); };
@@ -23,33 +25,27 @@ window.addEventListener('load', function() {
 
     let sessionId = generateSessionId();
 
+    //Static Information
     let userAgent = navigator.userAgent;
-
     let userLanguage = navigator.language;
-
     let cookiesEnabled = navigator.cookieEnabled;
-
     let screenDimensions = { 
         width: screen.width, 
         height: screen.height 
     };
-
     let windowDimensions = { 
         width: window.innerWidth, 
         height: window.innerHeight 
     };
-
     let networkConnectionType = navigator.connection ? navigator.connection.effectiveType : "unknown";
 
+    //Performance Information
     let performanceTiming = performance.timing;
-
     let pageLoadStart = performance.timing.loadEventStart;
-
     let pageLoadEnd = performance.timing.loadEventEnd;
-
     let totalLoadTime = pageLoadEnd - pageLoadStart;
 
-    // Collect all static and performance data, then send as one packet
+    // Packet
     checkImagesEnabled(function(imagesEnabled) {
         let cssEnabled = checkCssEnabled();
         let data = {
@@ -78,6 +74,9 @@ window.addEventListener('load', function() {
     });
 });
 
+//Activity Information
+
+//All thrown errors
 window.onerror = function(message, source, lineno, colno, error) {
     fetch('/logger.php?error=' + encodeURIComponent(message) +
           '&source=' + encodeURIComponent(source) +
@@ -86,6 +85,7 @@ window.onerror = function(message, source, lineno, colno, error) {
           '&session=' + sessionId);
 };
 
+//All mouse activity
 document.addEventListener('mousemove', function(event) {
     let x = event.clientX;
     let y = event.clientY;
@@ -105,6 +105,7 @@ window.addEventListener('scroll', function() {
     fetch('/logger.php?scroll&x=' + scrollX + '&y=' + scrollY + '&session=' + sessionId);
 });
 
+//All keyboard activity
 document.addEventListener('keydown', function(event) {
     let key = event.key;
     let code = event.code;
@@ -117,18 +118,21 @@ document.addEventListener('keyup', function(event) {
     fetch('/logger.php?keyup&key=' + key + '&code=' + code + '&session=' + sessionId);
 });
 
+//When the user entered the page
 window.addEventListener('load', function() {
     let entryTime = Date.now();
     fetch('/logger.php?entryTime=' + entryTime + '&session=' + sessionId);
 });
 
+//When the user left the page
 window.addEventListener('beforeunload', function() {
     let exitTime = Date.now();
+    //Which page the user was on
     let page = window.location.href;
     fetch('/logger.php?exitTime=' + exitTime + '&page=' + encodeURIComponent(page) + '&session=' + sessionId);
 });
 
-
+//Idle Detection
 let idleStart = null;
 let lastActivity = Date.now();
 let idleTimeout = null;
@@ -139,6 +143,8 @@ function activityHandler() {
         let idleEnd = now;
         let idleDuration = idleEnd - idleStart;
         console.log('Idle ended:', idleEnd, 'Duration:', idleDuration);
+        //Record when the break ended
+        //Record how long it lasted
         fetch('/logger.php?idleEnd=' + idleEnd + '&idleDuration=' + idleDuration + '&session=' + sessionId);
         idleStart = null;
     }
