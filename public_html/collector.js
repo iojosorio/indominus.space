@@ -82,13 +82,14 @@ window.onerror = function(message, source, lineno, colno, error) {
     fetch('/logger.php?error=' + encodeURIComponent(message) +
           '&source=' + encodeURIComponent(source) +
           '&line=' + lineno +
-          '&col=' + colno);
+          '&col=' + colno +
+          '&session=' + sessionId);
 };
 
 document.addEventListener('mousemove', function(event) {
     let x = event.clientX;
     let y = event.clientY;
-    fetch('/logger.php?mousemove&x=' + x + '&y=' + y);
+    fetch('/logger.php?mousemove&x=' + x + '&y=' + y + '&session=' + sessionId);
 });
 
 document.addEventListener('click', function(event) {
@@ -101,28 +102,30 @@ document.addEventListener('click', function(event) {
 window.addEventListener('scroll', function() {
     let scrollX = window.scrollX;
     let scrollY = window.scrollY;
-    fetch('/logger.php?scroll&x=' + scrollX + '&y=' + scrollY);
+    fetch('/logger.php?scroll&x=' + scrollX + '&y=' + scrollY + '&session=' + sessionId);
 });
 
 document.addEventListener('keydown', function(event) {
     let key = event.key;
     let code = event.code;
-    fetch('/logger.php?keydown&key=' + key + '&code=' + code);
+    fetch('/logger.php?keydown&key=' + key + '&code=' + code + '&session=' + sessionId);
 });
 
 document.addEventListener('keyup', function(event) {
     let key = event.key;
     let code = event.code;
-    fetch('/logger.php?keyup&key=' + key + '&code=' + code);
+    fetch('/logger.php?keyup&key=' + key + '&code=' + code + '&session=' + sessionId);
 });
 
 window.addEventListener('load', function() {
     let entryTime = Date.now();
+    fetch('/logger.php?entryTime=' + entryTime + '&session=' + sessionId);
 });
 
 window.addEventListener('beforeunload', function() {
     let exitTime = Date.now();
     let page = window.location.href;
+    fetch('/logger.php?exitTime=' + exitTime + '&page=' + encodeURIComponent(page) + '&session=' + sessionId);
 });
 
 
@@ -136,7 +139,7 @@ function activityHandler() {
         let idleEnd = now;
         let idleDuration = idleEnd - idleStart;
         console.log('Idle ended:', idleEnd, 'Duration:', idleDuration);
-        fetch('/logger.php?idleEnd=' + idleEnd + '&idleDuration=' + idleDuration);
+        fetch('/logger.php?idleEnd=' + idleEnd + '&idleDuration=' + idleDuration + '&session=' + sessionId);
         idleStart = null;
     }
     lastActivity = now;
@@ -144,7 +147,7 @@ function activityHandler() {
     idleTimeout = setTimeout(function() {
         idleStart = Date.now();
         console.log('Idle started:', idleStart);
-        fetch('/logger.php?idleStart=' + idleStart);
+        fetch('/logger.php?idleStart=' + idleStart + '&session=' + sessionId);
     }, 2000);
 }
 
