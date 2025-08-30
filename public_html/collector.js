@@ -1,9 +1,13 @@
+let sessionId = null;
+
 window.addEventListener('load', function() {
 
     //Session Identifier
     function generateSessionId() {
         return 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
     }
+
+    sessionId = generateSessionId();
 
     //Helper methods
     function checkImagesEnabled(callback) {
@@ -22,8 +26,6 @@ window.addEventListener('load', function() {
         document.body.removeChild(div);
         return cssEnabled;
     }
-
-    let sessionId = generateSessionId();
 
     //Static Information
     let userAgent = navigator.userAgent;
