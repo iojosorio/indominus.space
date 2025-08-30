@@ -1,3 +1,5 @@
+let sessionId = null;
+
 window.addEventListener('load', function() {
 
     //Session Identifier
@@ -5,7 +7,7 @@ window.addEventListener('load', function() {
         return 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
     }
 
-    var sessionId = generateSessionId();
+    sessionId = generateSessionId();
 
     //Helper methods
     function checkImagesEnabled(callback) {
