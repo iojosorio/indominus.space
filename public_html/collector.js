@@ -1,5 +1,3 @@
-let sessionId = null;
-
 window.addEventListener('load', function() {
 
     //Session Identifier
@@ -7,7 +5,7 @@ window.addEventListener('load', function() {
         return 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
     }
 
-    sessionId = generateSessionId();
+    var sessionId = generateSessionId();
 
     //Helper methods
     function checkImagesEnabled(callback) {
@@ -98,7 +96,7 @@ document.addEventListener('click', function(event) {
     let x = event.clientX;
     let y = event.clientY;
     let button = event.button; // 0: left, 1: middle, 2: right
-    fetch('/logger.php?click&x=' + x + '&y=' + y + '&button=' + button);
+    fetch('/logger.php?click&x=' + x + '&y=' + y + '&button=' + button + '&session=' + sessionId);
 });
 
 window.addEventListener('scroll', function() {
