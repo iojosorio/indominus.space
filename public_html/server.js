@@ -1,19 +1,77 @@
-// app.js file
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql2');
 
-var jsonServer = require('json-server');
+const app = express();
+app.use(bodyParser.json());
 
-// Returns an Express server
-var server = jsonServer.create();
+// MySQL connection
+const db = mysql.createPool({
+    host: 'localhost',
+    user: 'your_mysql_user',
+    password: 'your_mysql_password',
+    database: 'your_database_name'
+});
 
-// Set default middlewares (logger, static, cors and no-cache)
-server.use(jsonServer.defaults());
+// --- /api/static ---
+app.post('/api/static', (req, res) => {
+    const d = req.body;
+    const sql = `
+        INSERT INTO static_info
+        (session, userAgent, userLanguage, cookiesEnabled, jsEnabled,
+         imagesEnabled, cssEnabled, screenWidth, screenHeight,
+         windowWidth, windowHeight, networkConnectionType)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const values = [
+        d.session,
+        d.userAgent,
+        d.userLanguage,
+        d.cookiesEnabled,
+        d.jsEnabled,
+        d.imagesEnabled,
+        d.cssEnabled,
+        d.screenDimensions?.width,
+        d.screenDimensions?.height,
+        d.windowDimensions?.width,
+        d.windowDimensions?.height,
+        d.networkConnectionType
+    ];
+    db.query(sql, values, (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ success: false, error: err });
+        } else {
+            res.json({ success: true });
+        }
+    });
+});
 
-// Add custom routes
-// server.get('/custom', function (req, res) { res.json({ msg: 'hello' }) })
+// --- /api/performance ---
+app.post('/api/performance', (req, res) => {
+    const d = req.body;
+    const sql = `
+        INSERT INTO performance_info
+        (session, performanceTiming, pageLoadStart, pageLoadEnd, totalLoadTime)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+    const values = [
+        d.session,
+        JSON.stringify(d.performanceTiming || {}),
+        d.pageLoadStart,
+        d.pageLoadEnd,
+        d.totalLoadTime
+    ];
+    db.query(sql, values, (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ success: false, error: err });
+        } else {
+            res.json({ success: true });
+        }
+    });
+});
 
-// Returns an Express router
-var router = jsonServer.router('db.json');
-
-server.use(router);
-
-server.listen(3000);
+app.listen(3000, () => {
+    console.log('API running on http://localhost:3000');
+});
