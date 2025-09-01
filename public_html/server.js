@@ -8,9 +8,9 @@ app.use(bodyParser.json());
 // MySQL connection
 const db = mysql.createPool({
     host: 'localhost',
-    user: 'your_mysql_user',
-    password: 'your_mysql_password',
-    database: 'your_database_name'
+    user: 'root',
+    password: 'qwas7a1Cf322',
+    database: 'logs'
 });
 
 // --- /api/static ---
