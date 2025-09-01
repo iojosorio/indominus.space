@@ -17,7 +17,7 @@ const db = mysql.createPool({
 app.post('/api/static', (req, res) => {
     const d = req.body;
     const sql = `
-        INSERT INTO static_info
+        INSERT INTO static
         (session, userAgent, userLanguage, cookiesEnabled, jsEnabled,
          imagesEnabled, cssEnabled, screenWidth, screenHeight,
          windowWidth, windowHeight, networkConnectionType)
@@ -51,7 +51,7 @@ app.post('/api/static', (req, res) => {
 app.post('/api/performance', (req, res) => {
     const d = req.body;
     const sql = `
-        INSERT INTO performance_info
+        INSERT INTO performance
         (session, performanceTiming, pageLoadStart, pageLoadEnd, totalLoadTime)
         VALUES (?, ?, ?, ?, ?)
     `;
