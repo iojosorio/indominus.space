@@ -1,15 +1,6 @@
-let sessionId = null;
+let sessionId = 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);;
 
 window.addEventListener('load', function() {
-
-    //Session Identifier
-    function generateSessionId() {
-        return 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-    }
-
-    sessionId = generateSessionId();
-
-    //Helper methods
     function checkImagesEnabled(callback) {
         let img = new Image();
         img.onload = function() { callback(true); };
@@ -27,7 +18,7 @@ window.addEventListener('load', function() {
         return cssEnabled;
     }
 
-    //Static Information
+    // --- Static Information --- //
     let userAgent = navigator.userAgent;
     let userLanguage = navigator.language;
     let cookiesEnabled = navigator.cookieEnabled;
@@ -41,16 +32,9 @@ window.addEventListener('load', function() {
     };
     let networkConnectionType = navigator.connection ? navigator.connection.effectiveType : "unknown";
 
-    //Performance Information
-    let performanceTiming = performance.timing;
-    let pageLoadStart = performance.timing.loadEventStart;
-    let pageLoadEnd = performance.timing.loadEventEnd;
-    let totalLoadTime = pageLoadEnd - pageLoadStart;
-
-    // Packet
     checkImagesEnabled(function(imagesEnabled) {
         let cssEnabled = checkCssEnabled();
-        let data = {
+        let staticData = {
             session: sessionId,
             userAgent: userAgent,
             userLanguage: userLanguage,
@@ -63,19 +47,35 @@ window.addEventListener('load', function() {
             screenDimensions: screenDimensions,
             windowDimensions: windowDimensions,
             networkConnectionType: networkConnectionType,
-            performanceTiming: performanceTiming,
-            pageLoadStart: pageLoadStart,
-            pageLoadEnd: pageLoadEnd,
-            totalLoadTime: totalLoadTime
         };
-        fetch('/logger.php', {
+        fetch('/api/static', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: JSON.stringify(staticData)
         });
+    });
+    
+    // --- Performance Information --- //
+    let performanceTiming = performance.timing;
+    let pageLoadStart = performance.timing.loadEventStart;
+    let pageLoadEnd = performance.timing.loadEventEnd;
+    let totalLoadTime = pageLoadEnd - pageLoadStart;
+
+    let performanceData = {
+        session: sessionId,
+        performanceTiming: performanceTiming,
+        pageLoadStart: pageLoadStart,
+        pageLoadEnd: pageLoadEnd,
+        totalLoadTime: totalLoadTime
+    };
+    fetch('/api/performance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(performanceData)
     });
 });
 
+/*
 //Activity Information
 
 //All thrown errors
@@ -163,4 +163,4 @@ function activityHandler() {
     document.addEventListener(event, activityHandler, true);
 });
 
-activityHandler();
+activityHandler();*/
