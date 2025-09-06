@@ -1,3 +1,8 @@
+Homework 3:
+Dashboard.
+
+I decided to choose to report on the number of user agents visiting the website. I found that everyone uses Chrome. However, considering I have been the only user to visit my website often, it seems natural for there to be a majority Chrome based user base. This point is particularly of interest with the way sessioning is done in that without persistent cookies, or other methods to store sessions beyond the length of the actual session, every visit will count as a completely new session despite the same users visiting the website. It highlights that the number of visitors on the site does not equate the number of users. Additionally this is a point that may affect other analytics such as screen dimensions and user interface designs. The average screen width to screen height ratio is skewed in favor of those who visit the site more often than others and it reveals a difficult design choice potentially if I were trying to make my website better responsive to users depending on their devices. It would make several factors more important like the total number of mobile users versus the total number of desktop users or the frequency of either of the users and if one metric is more important than the other one. The idea of trade-offs in developer decisions along with the  importance of complete data analysis to inform those decisions is my biggest take away from the analytics aspect of the course. 
+
 Homework 2:
 Link: https://indominus.space/
 Team Members: Jonathan Osorio
